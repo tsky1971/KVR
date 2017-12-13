@@ -52,14 +52,13 @@
         <Grid Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <!--<RowDefinition Height="Auto"/>-->
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <!--This column is for the server status, which I have removed for now-->
-                <!--<ColumnDefinition Width="*" MaxWidth="150"/>-->
             </Grid.ColumnDefinitions>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -71,8 +70,13 @@
                     <ComboBoxItem Content="None"/>
                 </ComboBox>
             </Grid>
-            <Image Name="ColorImage" Grid.Row="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform"/>
-            <Canvas Name="ColorImageCanvas" Grid.Row="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <TextBlock Text="            "/>
+                <RadioButton Name="colorKinectSkeletonsRadioButton" Content="Kinect Skeletons" IsChecked="True" Margin="2" IsEnabled="False" Click="colorSkeletonsRadioButton_Click"/>
+                <RadioButton Name="colorMergedSkeletonsRadioButton" Content="Merged Skeletons" IsChecked="False" Margin="2" IsEnabled="False"  Click="colorSkeletonsRadioButton_Click"/>
+            </StackPanel>
+            <Image Name="ColorImage" Grid.Row="2" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform"/>
+            <Canvas Name="ColorImageCanvas" Grid.Row="2" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
             <Grid Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -83,10 +87,13 @@
                     <ComboBoxItem Content="None"/>
                 </ComboBox>
             </Grid>
-            <Image Name="DepthImage" Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-            <Canvas Name="DepthImageCanvas" Grid.Row="1" Grid.Column="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
-            <!--Info column has been removed pending a decision on what to put in it-->
-            <!--<Label Content="Info:" Grid.Column="2"/>-->
+            <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="             "/>
+                <RadioButton Name="depthKinectSkeletonsRadioButton" Content="Kinect Skeletons" IsChecked="True" Margin="2" IsEnabled="False"  Click="depthSkeletonsRadioButton_Click"/>
+                <RadioButton Name="depthMergedSkeletonsRadioButton" Content="Merged Skeletons" IsChecked="False" Margin="2" IsEnabled="False"  Click="depthSkeletonsRadioButton_Click"/>
+            </StackPanel>
+            <Image Name="DepthImage" Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <Canvas Name="DepthImageCanvas" Grid.Row="2" Grid.Column="1" Margin="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent"/>
         </Grid>
         <GridSplitter Grid.Row="1" VerticalAlignment="Bottom" Height="5" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="Transparent"/>
         <GridSplitter Grid.Row="2" VerticalAlignment="Top" Height="5" ResizeDirection="Rows" HorizontalAlignment="Stretch" Background="Transparent"/>
@@ -249,50 +256,23 @@
             </TabItem>
             
             <!--The gesture tab is disabled until such time as gestures are put into the server-->
-            <!--<TabItem Name="GestureTab" Header="Gesture Commands">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="41"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+            <TabItem Name="GestureTab" Header="Gesture Commands">
+                <Grid Name="GestureTabMasterGrid">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="4"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.ColumnSpan="5" Name="GestureInfoBlock" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" Margin="6,6,0,0" Width="Auto">
-                        <Bold>Gesture Information:</Bold> Select the gestures relevant to your project from below. The program will watch for selected gestures and return a message in the Log tab when they are seen for testing purposes. 
-                    </TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="0" Name="SwipeBlock" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="12,4">
-                        Swipe:<LineBreak/><CheckBox Name="UpSwipeCheckBox" Content="Up" Margin="4"/>
-                              <LineBreak/><CheckBox Name="DownSwipeCheckBox" Content="Down" Margin="4,0,4,4"/>
-                              <LineBreak/><CheckBox Name="RightSwipeCheckBox" Content="Right" Margin="4,0,4,4"/>
-                              <LineBreak/><CheckBox Name="LeftSwipeCheckBox" Content="Left" Margin="4,0"/>
-                    </TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="1" Name="WaveBlock" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="12,4">
-                        Wave: <LineBreak/><CheckBox Name="RightWaveCheckBox" Content="Right" Margin="4"/>
-                              <LineBreak/><CheckBox Name="LeftWaveCheckBox" Content="Left" Margin="4,0,4,4"/>
-                    </TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="2" Name="SelectionBlock" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="12,4">
-                        Selection: <LineBreak/><CheckBox Name="PushCheckBox" Content="Push" Margin="4"/>
-                              <LineBreak/><CheckBox Name="GrabCheckBox" Content="Grab" Margin="4,0,4,4"/>
-                    </TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="3" Name="MiscBlock" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="12,4,0,0" Grid.ColumnSpan="2">
-                        Misc: <LineBreak/>
-                            <CheckBox Name="HandsGraspBox" Margin="4" Height="40">
-                                <TextBlock>
-                                    <Run Text="Hands"/><LineBreak/><Run Text="clasped"/>
-                                </TextBlock>
-                            </CheckBox>
-                    </TextBlock>
-                    <TextBlock Grid.Row="1" Grid.Column="4" Name="ServerBlock" HorizontalAlignment="Left" VerticalAlignment="Top" TextWrapping="Wrap" Margin="12,4">
-                        Enter server name:<LineBreak/><TextBox x:Name="GCServerInputBox" Height="22" Width="125" Margin="0,4" Text="Unconnected in code"/>
-                    </TextBlock>
+                    <ListBox Name="gestureTabListBox"/>
+                    <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="Transparent" ResizeDirection="Columns"/>
+                    <Grid Name="perGestureLayoutGrid" Grid.Column="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                    </Grid>
                 </Grid>
-            </TabItem>-->
+            </TabItem>
             
             <TabItem Name="SkeletonTab" Header="Skeleton Settings" RequestBringIntoView="SkeletonTab_RequestBringIntoView">
                 <TabControl Name="SkeletonsTabControl" TabStripPlacement="Bottom">
@@ -324,6 +304,8 @@
                                     <ComboBoxItem Content="Ascending Euclidean Distance from Feedback Sensor"/>
                                     <ComboBoxItem Content="Descending Euclidean Distance from Feedback Sensor"/>
                                 </ComboBox>
+                                <TextBlock Text="Predict Ahead (ms):" Margin="2" VerticalAlignment="Center"/>
+                                <TextBox Name="skeletonPredictAheadTextBox" Text="0" Width="32" Margin="2" VerticalAlignment="Center" TextAlignment="Right" PreviewKeyDown="floatNumberTextBox_PreviewKeyDown" LostFocus="skeletonPredictAheadTextBox_LostFocus"/>
                             </StackPanel>
                             <DataGrid Name="SkeletonSettingsDataGrid" Grid.Row="3" AutoGenerateColumns="False" ItemsSource="{Binding}" HeadersVisibility="Column" CanUserAddRows="False">
                                 <DataGrid.Columns>

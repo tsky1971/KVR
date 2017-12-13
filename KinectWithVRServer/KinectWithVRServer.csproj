@@ -49,7 +49,8 @@
     <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <VRPNPath>..\3rd Party\VrpnNet\Win32\Debug\VrpnNet.dll</VRPNPath>
+    <VRPNPath>..\3rd Party\VrpnNet\x86\Debug\VrpnNet.dll</VRPNPath>
+    <EigenPath>..\3rd Party\EigenWrapper\x86\Debug\EigenWrapper.dll</EigenPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -60,7 +61,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <VRPNPath>..\3rd Party\VrpnNet\Win32\Release\VrpnNet.dll</VRPNPath>
+    <VRPNPath>..\3rd Party\VrpnNet\x86\Release\VrpnNet.dll</VRPNPath>
+    <EigenPath>..\3rd Party\EigenWrapper\x86\Release\EigenWrapper.dll</EigenPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
@@ -72,6 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <VRPNPath>..\3rd Party\VrpnNet\x64\Debug\VrpnNet.dll</VRPNPath>
+    <EigenPath>..\3rd Party\EigenWrapper\x64\Debug\EigenWrapper.dll</EigenPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
@@ -83,9 +86,13 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <VRPNPath>..\3rd Party\VrpnNet\x64\Release\VrpnNet.dll</VRPNPath>
+    <EigenPath>..\3rd Party\EigenWrapper\x64\Release\EigenWrapper.dll</EigenPath>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EigenWrapper">
+      <HintPath>$(EigenPath)</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Speech, Version=10.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Windows\assembly\GAC_MSIL\Microsoft.Speech\11.0.0.0__31bf3856ad364e35\Microsoft.Speech.dll</HintPath>
@@ -113,7 +120,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ConcurrentSkeletonCollection.cs" />
     <Compile Include="ConsoleUI.cs" />
+    <Compile Include="GestureCore.cs" />
     <Compile Include="NetworkKinectWrapper\NKAddDialog.xaml.cs">
       <DependentUpon>NKAddDialog.xaml</DependentUpon>
     </Compile>
@@ -141,9 +150,9 @@
       <DependentUpon>KV2SettingsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="KinectV2Wrapper\KV2StatusHelper.cs" />
-    <Compile Include="MergedSkeleton.cs" />
     <Compile Include="ServerCore.cs" />
     <Compile Include="Shaders\NoScalingEffect\NoScalingEffectWrapper.cs" />
+    <Compile Include="SkeletonMerger.cs" />
     <Compile Include="VerifyDLLs.cs" />
     <Compile Include="VoiceRecogCore.cs" />
     <Page Include="KinectV1Wrapper\KV1SettingsControl.xaml">
@@ -258,8 +267,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy "$(SolutionDir)3rd Party\EigenWrapper\$(PlatformName)\$(ConfigurationName)\NativeEigenWrapper.*" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

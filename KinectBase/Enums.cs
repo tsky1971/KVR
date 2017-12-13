@@ -16,12 +16,13 @@ namespace KinectBase
     //                SpineBase = 25, SpineMid = 26, Neck = 27}
     
     //Joints that have been renamed in Kinect 2 are double mapped to the same number as the old name
-    public enum JointType { HipCenter = 0, Spine = 1, ShoulderCenter = 2, Head = 3, ShoulderLeft = 4,
-                            ElbowLeft = 5, WristLeft = 6, HandLeft = 7, ShoulderRight = 8, ElbowRight = 9,
-                            WristRight = 10, HandRight = 11, HipLeft = 12, KneeLeft = 13, AnkleLeft = 14,
-                            FootLeft = 15, HipRight = 16, KneeRight = 17, AnkleRight = 18, FootRight = 19,
-                            SpineShoulder = 2, HandTipLeft = 21, ThumbLeft = 22, HandTipRight = 23, ThumbRight = 24,
-                            SpineBase = 0, SpineMid = 1, Neck = 25 }
+    public enum JointType { HipCenter = 0, Spine = 1, ShoulderCenter = 2, Head = 3,
+                            ShoulderLeft = 4, ElbowLeft = 5, WristLeft = 6, HandLeft = 7, 
+                            ShoulderRight = 8, ElbowRight = 9, WristRight = 10, HandRight = 11, 
+                            HipLeft = 12, KneeLeft = 13, AnkleLeft = 14, FootLeft = 15, 
+                            HipRight = 16, KneeRight = 17, AnkleRight = 18, FootRight = 19,
+                            HandTipLeft = 21, ThumbLeft = 22, HandTipRight = 23, ThumbRight = 24,
+                            SpineShoulder = 2, SpineBase = 0, SpineMid = 1, Neck = 20 }
 
     public enum AudioTrackingMode { Loudest, Feedback, MergedSkeletonX, LocalSkeletonX } 
     public enum EchoCancellationMode {None = 0, CancellationOnly = 1, CancellationAndSuppression = 2}
@@ -42,6 +43,6 @@ namespace KinectBase
         NoSort = 0, OriginXClosest = 1, OriginXFarthest = 2, OriginYClosest = 3, OriginYFarthest = 4, OriginZClosest = 5, OriginZFarthest = 6, OriginEuclidClosest = 7, OriginEuclidFarthest = 8,
         FeedbackXClosest = 9, FeedbackXFarthest = 10, FeedbackYClosest = 11, FeedbackYFarthest = 12, FeedbackZClosest = 13, FeedbackZFarthest = 14, FeedbackEuclidClosest = 15, FeedbackEuclidFarthest = 16
     }
-    public enum GestureType { Recorded }
+    //public enum GestureType { Recorded }
     public enum PressState { Pressed, Released }
 }
